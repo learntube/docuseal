@@ -1,0 +1,10 @@
+# cat=DocuSeal Configuration//1;; type=boolean; label=Enable DocuSeal Integration
+enableSignature = 1
+# cat=DocuSeal Configuration//2;; type=boolean; label=Enable Logging
+enableLogging = 1
+# cat=DocuSeal Configuration//3;; type=boolean; label=Use JavaScript files from CDN
+useCdnJs = 1
+# cat=DocuSeal Configuration//4; type=string; label=API Base Point
+docusealBasePoint =
+# cat=DocuSeal Configuration//5; type=string; label=API Token
+docusealToken =

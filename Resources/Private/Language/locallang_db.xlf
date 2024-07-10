@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="EXT:docuseal/Resources/Private/Language/locallang_db.xlf" date="2022-09-06T08:00:26Z" product-name="docuseal">
+		<header/>
+		<body>
+			<trans-unit id="flexform.head" resname="flexform.head">
+				<source>Plugin Configuration</source>
+			</trans-unit>
+			<trans-unit id="flexform.templateId" resname="flexform.templateId">
+				<source>Template ID (Refer to the "Document Templates" section of DocuSeal)</source>
+			</trans-unit>
+			<trans-unit id="flexform.fieldMapping" resname="flexform.fieldMapping">
+				<source>Data mapping information to populate the form via API [feuser_fieldn:docuseal_field] (Use a new line for each field)</source>
+			</trans-unit>
+			<trans-unit id="flexform.redirectAfterSign" resname="flexform.redirectAfterSign">
+				<source>Redirect to the specified page/URL after the document is signed.</source>
+			</trans-unit>
+			<trans-unit id="flexform.overwriteCss" resname="flexform.overwriteCss">
+				<source>CSS to override the DocuSeal widget CSS</source>
+			</trans-unit>
+
+
+			<trans-unit id="fe_users.div.docuseal" resname="fe_users.div.docuseal">
+				<source>DocuSeal</source>
+			</trans-unit>
+			<trans-unit id="fe_users.docuseal_id" resname="fe_users.docuseal_id">
+				<source>DocuSeal External ID</source>
+			</trans-unit>
+			<trans-unit id="fe_users.docuseal_signatures" resname="fe_users.docuseal_signatures">
+				<source>DocuSeal User Signatures</source>
+			</trans-unit>
+
+
+			<trans-unit id="tx_docuseal_domain_model_signatures.template_id" resname="tx_docuseal_domain_model_signatures.template_id">
+				<source>Template Id</source>
+			</trans-unit>
+			<trans-unit id="tx_docuseal_domain_model_signatures.signed_pdf_link" resname="tx_docuseal_domain_model_signatures.signed_pdf_link">
+				<source>Signed PDF Link</source>
+			</trans-unit>
+
+			<trans-unit id="tx_docuseal_pi1.name" resname="tx_docuseal_pi1.name">
+				<source>DocuSeal: Get signed by frontend users</source>
+			</trans-unit>
+			<trans-unit id="tx_docuseal_pi1.description" resname="tx_docuseal_pi1.description">
+				<source>This plugin enables the DocuSeal signature widget on a TYPO3 page to collect signatures from frontend users.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,10 @@
+plugin.tx_docuseal_pi1 {
+    view {
+        # cat=DocuSeal/file; type=string; label=Path to template root (FE)
+        templateRootPath = EXT:docuseal/Resources/Private/Templates/
+        # cat=DocuSeal/file; type=string; label=Path to template partials (FE)
+        partialRootPath = EXT:docuseal/Resources/Private/Partials/
+        # cat=DocuSeal/file; type=string; label=Path to template layouts (FE)
+        layoutRootPath = EXT:docuseal/Resources/Private/Layouts/
+    }
+}

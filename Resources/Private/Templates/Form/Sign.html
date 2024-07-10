@@ -1,0 +1,23 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:layout name="Default" />
+
+<f:section name="content">
+    <f:if condition="{docuseal}">
+        <f:asset.script identifier="docuseal-cdn" src="https://cdn.docuseal.co/js/form.js" />
+
+        <f:if condition="{docuseal.redirectionLink}">
+            <f:then>
+                <f:variable name="dataCompletedRedirectUrl"> data-completed-redirect-url={docuseal.redirectionLink}</f:variable>
+            </f:then>
+            <f:else>
+                <f:variable name="dataCompletedRedirectUrl"></f:variable>
+            </f:else>
+        </f:if>
+
+        <docuseal-form id="docusealForm" data-src="{docuseal.dataSrc}" data-email="{docuseal.dataEmail}"{dataCompletedRedirectUrl}></docuseal-form>
+
+        <f:asset.script identifier="docuseal-init">
+            window.docusealForm.addEventListener('completed', (e) => e.detail)
+        </f:asset.script>
+    </f:if>
+</f:section>

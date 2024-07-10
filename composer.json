@@ -1,0 +1,27 @@
+{
+	"name": "lms3/docuseal",
+	"type": "typo3-cms-extension",
+    "description": "Integrates DocuSeal in TYPO3 CMS",
+	"version": "1.0.0",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Kallol Chakraborty",
+			"email": "kchakraborty@learntube.de",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"typo3/cms-core": "^12.4"
+	},
+	"autoload": {
+		"psr-4": {
+			"LMS3\\Docuseal\\": "Classes"
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "docuseal"
+		}
+	}
+}
