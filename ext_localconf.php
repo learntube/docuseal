@@ -46,10 +46,10 @@ ExtensionUtility::configurePlugin(
     'Docuseal',
     'Pi1',
     [
-        FormController::class => 'sign',
+        FormController::class => 'sign, update',
     ],
     [
-        FormController::class => 'sign',
+        FormController::class => 'sign, update',
     ]
 );
 

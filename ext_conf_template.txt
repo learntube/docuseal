@@ -1,10 +1,10 @@
-# cat=DocuSeal Configuration//1;; type=boolean; label=Enable DocuSeal Integration
+# cat=Setings//1;; type=boolean; label=Enable DocuSeal Integration
 enableSignature = 1
-# cat=DocuSeal Configuration//2;; type=boolean; label=Enable Logging
-enableLogging = 1
-# cat=DocuSeal Configuration//3;; type=boolean; label=Use JavaScript files from CDN
-useCdnJs = 1
-# cat=DocuSeal Configuration//4; type=string; label=API Base Point
+
+# cat=API//2; type=string; label=Base Point of the APIs
 docusealBasePoint =
-# cat=DocuSeal Configuration//5; type=string; label=API Token
+# cat=API//3; type=string; label=Secret Token
 docusealToken =
+
+# cat=Embedded Signing Form//4; type=string; label=Base Point of Public URL of the document signing form
+docusealFormBasePoint =

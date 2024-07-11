@@ -2,19 +2,21 @@
 <f:layout name="Default" />
 
 <f:section name="content">
+    <f:flashMessages />
     <f:if condition="{docuseal}">
         <f:asset.script identifier="docuseal-cdn" src="https://cdn.docuseal.co/js/form.js" />
 
-        <f:if condition="{docuseal.redirectionLink}">
-            <f:then>
-                <f:variable name="dataCompletedRedirectUrl"> data-completed-redirect-url={docuseal.redirectionLink}</f:variable>
-            </f:then>
-            <f:else>
-                <f:variable name="dataCompletedRedirectUrl"></f:variable>
-            </f:else>
-        </f:if>
-
-        <docuseal-form id="docusealForm" data-src="{docuseal.dataSrc}" data-email="{docuseal.dataEmail}"{dataCompletedRedirectUrl}></docuseal-form>
+        <docuseal-form
+            id="docusealForm"
+            data-language="{docuseal.language}"
+            data-custom-css="{docuseal.customCss}"
+            data-src="{docuseal.dataSrc}"
+            data-allow-to-resubmit="false"
+            data-email="{docuseal.dataEmail}"
+            data-external-id="{docuseal.externalId}"
+            data-completed-redirect-url={docuseal.redirectionLink}
+        >
+        </docuseal-form>
 
         <f:asset.script identifier="docuseal-init">
             window.docusealForm.addEventListener('completed', (e) => e.detail)

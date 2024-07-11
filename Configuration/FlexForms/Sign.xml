@@ -41,16 +41,16 @@
 							</config>
                         </TCEforms>
                     </settings.redirectAfterSign>
-					<settings.overwriteCss>
+					<settings.customCss>
                         <TCEforms>
-                            <label>LLL:EXT:docuseal/Resources/Private/Language/locallang_db.xlf:flexform.overwriteCss</label>
+                            <label>LLL:EXT:docuseal/Resources/Private/Language/locallang_db.xlf:flexform.customCss</label>
                             <config>
 								<type>text</type>
 								<cols>40</cols>
 								<rows>8</rows>
 							</config>
                         </TCEforms>
-                    </settings.overwriteCss>
+                    </settings.customCss>
 				</el>
 			</ROOT>
 		</sDEF>

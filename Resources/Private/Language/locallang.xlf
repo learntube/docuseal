@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="EXT:docuseal/Resources/Private/Language/locallang.xlf" date="2022-09-06T08:00:26Z" product-name="docuseal">
+		<header/>
+		<body>
+			<trans-unit id="label.msg.heading.not_loggedin" resname="label.msg.heading.not_loggedin">
+				<source>Incomplete Setup</source>
+			</trans-unit>
+			<trans-unit id="label.msg.text.not_loggedin" resname="label.msg.text.not_loggedin">
+				<source>Missing configuration:</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

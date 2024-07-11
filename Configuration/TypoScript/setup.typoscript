@@ -8,3 +8,9 @@ plugin.tx_docuseal_pi1 {
         layoutRootPaths.1 = {$plugin.tx_docuseal_pi1.view.layoutRootPath}
     }
 }
+
+plugin.tx_docuseal._CSS_DEFAULT_STYLE (
+    .typo3-messages {
+        list-style-type: none;
+    }
+);

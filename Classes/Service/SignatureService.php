@@ -27,76 +27,187 @@ namespace LMS3\Docuseal\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use LMS3\Docuseal\Service\LogService;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * @author (c) 2024 Kallol Chakraborty <kchakraborty@learntube.de>
  */
 class SignatureService
 {
-    protected string $identifier = 'docuseal';
+    protected Context $context;
 
-    public function getResponse(
-        string $uri,
-        string $token,
-        string $method = 'GET',
-        array $data = [],
-        bool $jsonDecode = true
-    ): string|array|bool
+    protected Connection $connection;
+
+    protected int $uUid;
+
+    public function __construct(Connection $connection)
     {
-        // Send cURL request
-        $response = $this->sendCurlRequest($uri, $token, $method, $data);
-        $responseAsArray = json_decode($response, true);
+        $this->connection = $connection;
 
-        // Handle exceptions
-        if (array_key_exists('error', $responseAsArray)) {
-            LogService::savetLogToFile('Remote Exception: Failed to send cURL request for URL - ' . $uri . ' Details: ' . $responseAsArray['error'], $this->identifier);
-            return false;
-        } else if (empty($responseAsArray)) {
-            LogService::savetLogToFile('Remote Exception: Failed to send cURL request for URL - ' . $uri . ' Details: ' . 'Not found', $this->identifier);
-            return false;
-        }
-
-        // Handle successful response
-        if ($jsonDecode) {
-            return $responseAsArray;
-        } else {
-            return $response;
-        }
+        $this->context = GeneralUtility::makeInstance(Context::class);
+        $this->uUid = intval($this->context->getPropertyFromAspect('frontend.user', 'id'));
     }
 
-    protected function sendCurlRequest(string $uri, string $token, string $method, array $data): string|bool
+    public function create(array $data): void
     {
-        // Prepare the headers
-        $headers = [
-            'X-Auth-Token: ' . $token,
-            'Content-Type: application/json'
-        ];
+        $user = $this->queryUser();
+        $uPid = $user['pid'];
+        $uSignatures = (int) $user['docuseal_signatures'];
 
-        // Initialize cURL session
-        $ch = curl_init();
+        $dql = <<<DQL
+            INSERT IGNORE INTO
+                tx_docuseal_domain_model_signatures(pid, crdate, tstamp, fe_user, template_id, submitter_slug)
+            VALUES
+                (:pid, :crdate, :tstamp, :user, :template_id, :submitter_slug)
+        DQL;
 
-        // Set cURL options
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $uri,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CUSTOMREQUEST => $method,
-            CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_POSTFIELDS => !empty($data) ? json_encode($data) : null,
-        ]);
+        try {
+            // Insert Signature Record
+            $this->connection->executeStatement(
+                $dql,
+                [
+                    'pid' => $uPid,
+                    'crdate' => $GLOBALS['EXEC_TIME'],
+                    'tstamp' => $GLOBALS['EXEC_TIME'],
+                    'user' => $this->uUid,
+                    'template_id' => $data['template_id'],
+                    'submitter_slug' => $data['submitter_slug']
+                ],
+                [
+                    'pid' => Connection::PARAM_INT,
+                    'crdate' => Connection::PARAM_INT,
+                    'tstamp' => Connection::PARAM_INT,
+                    'user' => Connection::PARAM_INT,
+                    'template_id' => Connection::PARAM_STR,
+                    'submitter_slug' => Connection::PARAM_STR
+                ]
+            );
 
-        // Execute cURL request
-        $response = curl_exec($ch);
+            // Update User Record
+            $this->updateUser('docuseal_signatures', $uSignatures + 1);
+        } catch (\Exception $e) {}
+    }
 
-        // Check for errors
-        if ($response === false) {
-            $errorMessage = curl_error($ch);
-            LogService::savetLogToFile('cURL Error: ' . $errorMessage . ' for URL - ' . $uri, $this->identifier);
-        }
+    public function queryUserSignatures(int $templateId): array
+    {
+        $sql = <<<SQL
+            SELECT
+                uid,
+                pid,
+                template_id,
+                submitter_slug,
+                signed_pdf_link
+            FROM
+                tx_docuseal_domain_model_signatures
+            WHERE
+                fe_user = :user AND
+                template_id = :template_id AND
+                hidden = 0 AND
+                deleted = 0
+            LIMIT
+                1
+        SQL;
 
-        // Close cURL session
-        curl_close($ch);
+        $signatures = $this->connection
+            ->executeQuery(
+                $sql,
+                [
+                    'user' => $this->uUid,
+                    'template_id' => $templateId
+                ],
+                [
+                    'user' => Connection::PARAM_INT,
+                    'template_id' => Connection::PARAM_INT
+                ]
+            )
+            ->fetchAssociative();
 
-        return $response;
+        return $signatures ? $signatures : [];
+    }
+
+    public function queryUser(): array|bool
+    {
+        $sql = <<<SQL
+            SELECT
+                *
+            FROM
+                fe_users
+            WHERE
+                uid = :user AND
+                disable = 0 AND
+                deleted = 0
+            LIMIT
+                1
+        SQL;
+
+        $user = $this->connection
+            ->executeQuery(
+                $sql,
+                [
+                    'user' => $this->uUid
+                ],
+                [
+                    'user' => Connection::PARAM_INT
+                ]
+            )
+            ->fetchAssociative();
+
+        return $user ? $user : [];
+    }
+
+    public function updateUser(string $property, mixed $value): void
+    {
+        $dql = <<<DQL
+            UPDATE
+                fe_users
+            SET
+                $property = :value
+            WHERE
+                uid = :uid
+        DQL;
+
+        try {
+            $this->connection
+                ->executeStatement(
+                    $dql,
+                    [
+                        'uid' => $this->uUid,
+                        'value' => $value
+                    ],
+                    [
+                        'uid' => Connection::PARAM_INT,
+                        'value' => Connection::PARAM_STR
+                    ]
+                );
+        } catch (\Exception $e) {}
+    }
+
+    public function updateSignature(int $uid, string $property, mixed $value): void
+    {
+        $dql = <<<DQL
+            UPDATE
+                tx_docuseal_domain_model_signatures
+            SET
+                $property = :value
+            WHERE
+                uid = :uid
+        DQL;
+
+        try {
+            $this->connection
+                ->executeStatement(
+                    $dql,
+                    [
+                        'uid' => $uid,
+                        'value' => $value
+                    ],
+                    [
+                        'uid' => Connection::PARAM_INT,
+                        'value' => Connection::PARAM_STR
+                    ]
+                );
+        } catch (\Exception $e) {}
     }
 }

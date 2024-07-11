@@ -15,11 +15,10 @@ return [
         'security' => [
             'ignorePageTypeRestriction' => true,
         ],
-        'searchFields' => 'signed_pdf_link',
         'iconfile' => 'EXT:docuseal/Resources/Public/Icons/Extension.svg'
     ],
     'types' => [
-        '1' => ['showitem' => 'template_id, signed_pdf_link, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, hidden'],
+        '1' => ['showitem' => 'template_id, submitter_slug, signed_pdf_link, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, hidden'],
     ],
     'columns' => [
         'hidden' => [
@@ -48,6 +47,17 @@ return [
                 'readOnly' => true,
             ],
         ],
+        'submitter_slug' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:docuseal/Resources/Private/Language/locallang_db.xlf:tx_docuseal_domain_model_signatures.submitter_slug',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+                'default' => '',
+                'readOnly' => true,
+            ],
+        ],
         'signed_pdf_link' => [
             'exclude' => true,
             'label' => 'LLL:EXT:docuseal/Resources/Private/Language/locallang_db.xlf:tx_docuseal_domain_model_signatures.signed_pdf_link',
@@ -58,6 +68,7 @@ return [
                 'readOnly' => true,
             ]
         ],
+
 
         'fe_user' => [
             'config' => [
