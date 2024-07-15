@@ -40,10 +40,10 @@
 			</trans-unit>
 
 			<trans-unit id="tx_docuseal_pi1.name" resname="tx_docuseal_pi1.name">
-				<source>DocuSeal: Collect signatures from frontend users</source>
+				<source>[DocuSeal] Collect signature from a frontend user</source>
 			</trans-unit>
 			<trans-unit id="tx_docuseal_pi1.description" resname="tx_docuseal_pi1.description">
-				<source>This plugin enables the DocuSeal signature widget on a TYPO3 page to collect signatures from frontend users.</source>
+				<source>This plugin enables the DocuSeal signature widget on a TYPO3 page to collect signature from a frontend user.</source>
 			</trans-unit>
 		</body>
 	</file>

@@ -18,7 +18,7 @@ return [
         'iconfile' => 'EXT:docuseal/Resources/Public/Icons/Extension.svg'
     ],
     'types' => [
-        '1' => ['showitem' => 'template_id, submitter_slug, signed_pdf_link, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, hidden'],
+        '1' => ['showitem' => 'template_id, signed_pdf_link, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, hidden'],
     ],
     'columns' => [
         'hidden' => [

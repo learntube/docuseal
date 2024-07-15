@@ -36,7 +36,6 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -88,7 +87,7 @@ class FormController extends ActionController
 
         // Check if the signature feature is enabled
         if ($this->enableSignature) {
-            // Step 1: Validate the essential configuration settings
+            // Validate the essential configuration settings
             foreach ($this->extConfig as $configKey => $configValue) {
                 if (empty($configValue)) {
                     // Add an error message if a mandatory setting is missing
@@ -101,15 +100,15 @@ class FormController extends ActionController
                 }
             }
 
-            // Step 2: Retrieve information about the currently logged-in user
+            // Retrieve information about the currently logged-in user
             $this->user = $this->signatureService->queryUser();
 
             if ($errorFlag == 0 && !empty($this->user)) {
-                // Step 2.1: Extract DocuSeal credentials from the configuration
+                // Extract DocuSeal credentials from the configuration
                 $docusealBasePoint = trim($this->extConfig['docusealBasePoint']);
                 $docusealToken = trim($this->extConfig['docusealToken']);
 
-                // Step 2.2: Create or fetch the unique DocuSeal ID for the user
+                // Create or fetch the unique DocuSeal ID for the user
                 if (empty($this->user['docuseal_id'])) {
                     $docusealId = substr(str_shuffle(uniqid()), 0, 10) . '-' . mt_rand(1111, 9999);
                     $this->signatureService->updateUser('docuseal_id', $docusealId);
@@ -117,25 +116,25 @@ class FormController extends ActionController
                     $docusealId = $this->user['docuseal_id'];
                 }
 
-                // Step 2.3: Get the template ID from the settings
+                // Get the template ID from the settings
                 $templateId = (int) $this->settings['templateId'];
 
-                // Step 2.4: Proceed if the template ID and user email are available
+                // Proceed if the template ID and user email are available
                 if (!empty($templateId) && !empty($this->user['email'])) {
-                    // Step 2.4.1: Generate a unique external ID for the submission
+                    // Generate a unique external ID for the submission
                     $submitterExternalId = $docusealId . '-' . $templateId;
 
-                    // Step 2.4.3: Retrieve custom CSS settings, if any
+                    // Retrieve custom CSS settings, if any
                     $customCss = $this->settings['customCss'];
 
-                    // Step 2.4.4: Determine the URL to redirect to after submission completion
+                    // Determine the URL to redirect to after submission completion
                     $redirectionLink = $this->getHref('Form', 'update', ['extId' => $submitterExternalId]);
 
-                    // Step 2.4.4: Fetch the template information from DocuSeal
+                    // Fetch the template information from DocuSeal
                     $template = $this->docusealService->getResponse($docusealBasePoint . '/templates/' . $templateId, $docusealToken);
 
                     if (!empty($template)) {
-                        // Step 2.4.4.1: Check if a submission already exists for the user, otherwise create a new one
+                        // Check if a submission already exists for the user, otherwise create a new one
                         $submissions = $this->docusealService->getResponse($docusealBasePoint . '/submissions?template_id=' . $templateId . '&q=' . $this->user['email'], $docusealToken);
 
                         if (empty($submissions['data'])) {
@@ -153,11 +152,11 @@ class FormController extends ActionController
                                 ]
                             ];
 
-                            // Step 2.4.4.1.1: Create a new submission
+                            // Create a new submission
                             $submission = $this->docusealService->getResponse($docusealBasePoint . '/submissions', $docusealToken, 'POST', $newSubmissionData);
                             $submitterSlug = $submission[0]['slug'];
 
-                            // Step 2.4.4.1.2: Create a signature entry if it does not exist and update the user
+                            // Create a signature entry if it does not exist and update the user
                             $apiData = [];
                             $apiData['template_id'] = $templateId;
                             $apiData['submitter_slug'] = $submitterSlug;
@@ -169,7 +168,7 @@ class FormController extends ActionController
                             $submitterSlug = $userSignature['submitter_slug'];
                         }
 
-                        // Step 2.4.4.2: Prepare the embedded signing form for DocuSeal
+                        // Prepare the embedded signing form for DocuSeal
                         $docusealFormBasePoint = trim($this->extConfig['docusealFormBasePoint']);
                         $pdfDocusealSignLink = rtrim($docusealFormBasePoint, '/') . '/s/' . $submitterSlug;
                         $docuseal = [
@@ -199,19 +198,19 @@ class FormController extends ActionController
             throw new \Exception('Bad Request');
         }
 
-        // Step 1: Gather needed information
+        // Gather needed information
         $redirectionLink = '';
         $templateId = (int) $this->settings['templateId']; // Retrieve template ID from settings
         $submitterExternalId = $this->request->getArgument('extId'); // Get external ID from the request
         $userSignature = $this->signatureService->queryUserSignatures($templateId); // Query user signatures based on template ID
 
-        // Step 2: Perform update
+        // Perform update
         if ($this->enableSignature && empty($userSignature['signed_pdf_link'])) {
             // Retrieve DocuSeal credentials from the configuration
             $docusealBasePoint = trim($this->extConfig['docusealBasePoint']);
             $docusealToken = trim($this->extConfig['docusealToken']);
 
-            // Step 2.1: Retrieve signed PDF URL from DocuSeal
+            // Retrieve signed PDF URL from DocuSeal
             $sleepInterval = 3;
             $maxRetries = 3;
 
@@ -224,7 +223,7 @@ class FormController extends ActionController
                     $submitter = $submitters['data'][0];
                     if (!empty($submitter['documents'])) {
                         if ($submitter['status'] === 'completed') {
-                            // Step 2.2: Obtain the signed PDF URL and save it to the database
+                            // Obtain the signed PDF URL and save it to the database
                             $signedPDFDownloadLink = $submitter['documents'][0]['url'];
                             $this->signatureService->updateSignature($userSignature['uid'], 'signed_pdf_link', $signedPDFDownloadLink);
                             break;
@@ -239,7 +238,7 @@ class FormController extends ActionController
                 throw new RuntimeException("Unable to retrieve the signed PDF URL after several attempts. Please try reloading the page or contact the administrator for assistance.");
             }
 
-            // Step 2.3: Determine URL to redirect to after the update
+            // Determine URL to redirect to after the update
             if (!empty($this->settings['redirectAfterSign'])) {
                 // Generate a TYPO3 URL for redirection after signing
                 $cObj = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer');
@@ -253,7 +252,7 @@ class FormController extends ActionController
             }
         }
 
-        // Step 3: Perform redirection
+        // Perform redirection
         if (!empty($redirectionLink)) {
             // Redirect to the determined URL
             return new RedirectResponse($redirectionLink, 302);
@@ -317,7 +316,6 @@ class FormController extends ActionController
             return "en";
         }
 
-        /** @var SiteLanguage $siteLanguage */
         $siteLanguage = $this->request->getAttribute('language');
         $language = $siteLanguage?->getLocale()->getLanguageCode();
 
