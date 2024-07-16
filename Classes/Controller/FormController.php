@@ -92,8 +92,8 @@ class FormController extends ActionController
                 if (empty($configValue)) {
                     // Add an error message if a mandatory setting is missing
                     $this->addFlashMessage(
-                        $this->translate('msg.text.not_loggedin') . ' ' . $configKey,
-                        $this->translate('msg.heading.not_loggedin'),
+                        $this->translate('msg.text.missing_config') . ' ' . $configKey,
+                        $this->translate('msg.heading.missing_config'),
                         ContextualFeedbackSeverity::ERROR
                     );
                     $errorFlag++;

@@ -2,9 +2,7 @@
 	<sheets>
 		<sDEF>
 			<ROOT>
-				<TCEforms>
-					<sheetTitle>LLL:EXT:docuseal/Resources/Private/Language/locallang_db.xlf:flexform.head</sheetTitle>
-				</TCEforms>
+				<sheetTitle>LLL:EXT:docuseal/Resources/Private/Language/locallang_db.xlf:flexform.head.general</sheetTitle>
 				<type>array</type>
 				<el>
 					<settings.templateId>
