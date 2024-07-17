@@ -86,8 +86,8 @@ Example:
 ### Found a bug?
 
 * First, check out the main branch and verify that the issue has not yet been resolved.
-* Review the existing [issues](https://github.com/creativekallol/docuseal-typo3/issues) to prevent duplicates
-* If not found, report the bug in our [issue tracker](https://github.com/creativekallol/docuseal-typo3/issues/new).
+* Review the existing [issues](https://github.com/learntube/docuseal/issues) to prevent duplicates
+* If not found, report the bug in our [issue tracker](https://github.com/learntube/docuseal/issues/new).
 
 ------------
 
