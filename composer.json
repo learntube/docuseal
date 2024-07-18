@@ -2,7 +2,7 @@
 	"name": "lms3/docuseal",
 	"type": "typo3-cms-extension",
     "description": "Allows TYPO3 to integrate with DocuSeal services, enabling frontend users to securely sign documents using the DocuSeal API",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"license": "MIT",
 	"authors": [
 		{

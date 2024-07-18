@@ -1,25 +1,42 @@
-## Extension for TYPO3 CMS Supporting DocuSeal Integration
+## DocuSeal Extension for TYPO3 CMS
 
+Classification: docuseal
 
-### What is DocuSeal?
+Version: 1.0.1
+
+Language: en, de
+
+Description: This extension allows TYPO3 to integrate with DocuSeal services, enabling frontend users to securely sign documents using the DocuSeal API. It was developed and is maintained by LEARNTUBE GmbH and used for [LMS3](https://www.lms3.de/).
+
+Keywords: DocuSeal, e-Signature, Digital Signature, User Signature, LMS3, E-Learning
+
+Copyright: 2024
+
+Author: Kallol Chakraborty, Stefan Ramaker, LEARNTUBE GmbH
+
+License: This document is published under the Open Content License available from https://www.opencontent.org/opl.shtml
+
+The content of this document is related to TYPO3, a GNU/GPL CMS/Framework available from www.typo3.org.
+
+------------
+
+### About DocuSeal
 
 DocuSeal is an open-source platform that provides a secure and efficient way to digitally sign documents. DocuSeal aligns with the ESIGN Act and the UETA in the US, and the eIDAS regulation in Europe (first level), making signed documents legally binding. For more details, refer to [DocuSeal](https://www.docuseal.co/).
 
-------------
-
-### What does this extension do?
-
-This TYPO3 extension **docuseal** allows TYPO3 to integrate with DocuSeal services, enabling frontend users to securely sign documents using the DocuSeal API.
+We express our thanks to the DocuSeal team for their effective support throughout the development process.
 
 ------------
 
-### How does this extension work?
+### Major functionalities of "docuseal" TYPO3 extension
 * This extension allows frontend user information to be filled in on the PDF that needs to be signed.
 * It provides seamless integration of the signing form.
+* The signing form automatically detects and uses the website’s language.
+* The URL of the signed PDF is saved in the TYPO3 system within the fe_users table. Refer to the “DocuSeal” tab of the Frontend User TCA for more details.
 
 ------------
 
-### Installation
+### Installation and Configuration
 
 The installation process is straightforward and involves the following steps:
 
@@ -66,20 +83,7 @@ Example:
 .base-input {color: #575756 }
 </pre>
 
-------------
-
-### Product Owner
-
-* The product owner of the extension is Learntube GmbH, a pioneering German software development company specializing in e-learning solutions [LMS3](https://www.lms3.de) built on the TYPO3 content management system.
-* The author of the extension is Kallol Chakraborty from Learntube GmbH.
-* Additionally, every Learntube GmbH colleague is welcome to support further development if they wish.
-* If you would like to contribute externally, we welcome your pull requests. Please ensure your commit messages start with [BUGFIX] or [FEATURE] and are properly detailed.
-
-------------
-
-### Credits
-
-* We express our thanks to the [DocuSeal](https://docuseal.co/) team for their effective support throughout the development process.
+**Note:** You can obtain an API key directly from DocuSeal website according to their pricing plans, or you can test with a sandbox account.
 
 ------------
 
@@ -95,3 +99,8 @@ Example:
 
 * If you want to **sponsor** a feature, get in [contact](https://www.lms3.de/home/kontakt) with us or email us at mail@learntube.de.
 * You can also contact us for any customization needs.
+------------
+
+### Want to contribute?
+
+* If you would like to contribute externally, we welcome your pull requests. Please ensure your commit messages start with [BUGFIX] or [FEATURE] and are properly detailed.
