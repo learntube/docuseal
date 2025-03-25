@@ -2,7 +2,7 @@
 
 Classification: docuseal
 
-Version: 1.0.1
+Version: 2.0.0
 
 Language: en, de
 
