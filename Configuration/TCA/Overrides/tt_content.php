@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 /* * *************************************************************
 *
@@ -27,16 +28,29 @@ declare(strict_types = 1);
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
-ExtensionUtility::registerPlugin(
+defined('TYPO3') or die();
+
+// Register Plugin
+$contentTypeName = ExtensionUtility::registerPlugin(
     'Docuseal',
     'Pi1',
-    'LLL:EXT:docuseal/Resources/Private/Language/locallang_db.xlf:tx_docuseal_pi1.name'
+    'LLL:EXT:docuseal/Resources/Private/Language/locallang_db.xlf:tx_docuseal_pi1.name',
+    'tx-docuseal-svgicon',
+    'DocuSeal',
+    'LLL:EXT:docuseal/Resources/Private/Language/locallang_db.xlf:tx_docuseal_pi1.description',
 );
 
-$pluginSignature = 'docuseal_pi1';
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
-
+// Add the FlexForm
 ExtensionManagementUtility::addPiFlexFormValue(
-    $pluginSignature,
-    'FILE:EXT:docuseal/Configuration/FlexForms/Sign.xml'
+    '*',
+    'FILE:EXT:docuseal/Configuration/FlexForms/Sign.xml',
+    $contentTypeName
+);
+
+// Add the FlexForm to the show item list
+ExtensionManagementUtility::addToAllTCAtypes(
+    'tt_content',
+    '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:plugin, pi_flexform',
+    $contentTypeName,
+    'after:palette:headers'
 );

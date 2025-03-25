@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /* * *************************************************************
  *
@@ -28,10 +28,7 @@ declare(strict_types = 1);
 defined('TYPO3') || die();
 
 use LMS3\Docuseal\Controller\FormController;
-use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
-use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 ExtensionManagementUtility::addTypoScriptConstants(
@@ -46,35 +43,10 @@ ExtensionUtility::configurePlugin(
     'Docuseal',
     'Pi1',
     [
-        FormController::class => 'sign, update',
+        FormController::class => ['sign', 'update'],
     ],
     [
-        FormController::class => 'sign, update',
-    ]
-);
-
-ExtensionManagementUtility::addPageTSConfig(
-    'mod {
-        wizards.newContentElement.wizardItems.plugins {
-            elements {
-                docuseal {
-                    iconIdentifier = docuseal-plugin-pi1
-                    title = LLL:EXT:docuseal/Resources/Private/Language/locallang_db.xlf:tx_docuseal_pi1.name
-                    description = LLL:EXT:docuseal/Resources/Private/Language/locallang_db.xlf:tx_docuseal_pi1.description
-                    tt_content_defValues {
-                        CType = list
-                        list_type = docuseal_pi1
-                    }
-                }
-            }
-            show = *
-        }
-   }'
-);
-
-$iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
-$iconRegistry->registerIcon(
-    'docuseal-plugin-pi1',
-    SvgIconProvider::class,
-    ['source' => 'EXT:docuseal/Resources/Public/Icons/Extension.svg']
+        FormController::class => ['sign', 'update'],
+    ],
+    ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
